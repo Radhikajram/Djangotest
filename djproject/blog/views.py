@@ -1,7 +1,11 @@
+import current as current
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import Post
 from django.http import HttpResponseRedirect
 # Create your views here.
+
+# home page
 
 #List All the records of db  table.
 def blog_list(request):
@@ -18,10 +22,14 @@ def blog_detail(request,id):
     return render(request,"blog/blog_detail.html",context)
 
 #Delete specific record.
+@login_required
 def blog_delete(request,id):
     each_post = Post.objects.get(id = id)
-    each_post.delete()
-    return HttpResponseRedirect('/posts/')
+    current_user = request.user
+  # Check against logged in user with current user
+    if(current_user.id == each_post.author.id):
+       each_post.delete()
+       return HttpResponseRedirect('/posts/')
 
     
 

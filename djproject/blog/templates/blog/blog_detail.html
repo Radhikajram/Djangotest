@@ -5,8 +5,19 @@
     <title>Details of record</title>
 </head>
 <body>
-    <h1>{{blog_detail.title}}</h1>
-    {{blog_detial.content}}
+
+    {% if user.is_authenticated %}
+    <h2> user name is : {{user.username}}</h2>
+
+        {% if user.id == blog_detail.author.id %}
+            <h1>{{blog_detail.title}}</h1>
+            {{blog_detial.content}}
+        {% else %}
+            <h2> No records found </h2>
+        {% endif %}
+    {% else %}
+    <h2> user not authenticated</h2>
+    {% endif %}
 
 </body>
 </html>
